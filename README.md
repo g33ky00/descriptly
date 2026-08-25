@@ -12,7 +12,7 @@ Most PRs ship images without meaningful alt text. That hurts accessibility, SEO,
 2. It filters added/modified images by extension.
 3. It also scans markdown/JSX/HTML diffs for empty/missing `alt` attributes.
 4. Each candidate image URL is sent to Pollinations vision.
-5. Results are posted back as a single idempotent PR comment, or committed to files.
+5. Results are posted back as a single idempotent PR comment.
 
 ## Usage
 
