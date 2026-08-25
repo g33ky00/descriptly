@@ -4,7 +4,7 @@ Suggest alt text for images in your pull requests using Pollinations vision.
 
 ## Why
 
-Most PRs ship images without meaningful alt text. That hurts accessibility, SEO, and downstream tooling. Descriptly inspects PR diffs, sends image URLs to Pollinations, and proposes concise alt text — as a PR comment, or directly committed back into markdown/JSX/HTML files.
+Most PRs ship images without meaningful alt text. That hurts accessibility, SEO, and downstream tooling. Descriptly inspects PR diffs, sends image URLs to Pollinations, and proposes concise alt text as a PR comment.
 
 ## How it works
 

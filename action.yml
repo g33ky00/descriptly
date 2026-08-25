@@ -8,8 +8,8 @@ inputs:
     description: "Pollinations API token"
     required: true
   mode:
-    description: "comment or commit"
-    required: true
+    description: "Output mode"
+    required: false
     default: "comment"
   file-extensions:
     description: "Comma-separated image extensions to scan"

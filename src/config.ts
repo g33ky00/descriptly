@@ -11,8 +11,8 @@ export function config(): Config {
   const mode = (process.env.INPUT_MODE ?? "comment") as Config["mode"];
   const fileExtensions = process.env.INPUT_FILE_EXTENSIONS ?? "png,jpg,jpeg,gif,svg,webp";
 
-  if (mode !== "comment" && mode !== "commit") {
-    throw new Error(`Unsupported mode: ${mode}`);
+  if (mode !== "comment") {
+    throw new Error(`mode '${mode}' is not implemented yet — use 'comment'`);
   }
   return { pollinationsToken, mode, fileExtensions, githubToken };
 }

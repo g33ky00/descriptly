@@ -31696,8 +31696,8 @@ function config() {
     const githubToken = required("github-token");
     const mode = (process.env.INPUT_MODE ?? "comment");
     const fileExtensions = process.env.INPUT_FILE_EXTENSIONS ?? "png,jpg,jpeg,gif,svg,webp";
-    if (mode !== "comment" && mode !== "commit") {
-        throw new Error(`Unsupported mode: ${mode}`);
+    if (mode !== "comment") {
+        throw new Error(`mode '${mode}' is not implemented yet — use 'comment'`);
     }
     return { pollinationsToken, mode, fileExtensions, githubToken };
 }
