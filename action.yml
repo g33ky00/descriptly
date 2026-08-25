@@ -1,0 +1,24 @@
+name: "Descriptly"
+description: "Generate image alt text for PRs using Pollinations vision."
+branding:
+  icon: "image"
+  color: "purple"
+inputs:
+  pollinations-token:
+    description: "Pollinations API token"
+    required: true
+  mode:
+    description: "comment or commit"
+    required: true
+    default: "comment"
+  file-extensions:
+    description: "Comma-separated image extensions to scan"
+    required: false
+    default: "png,jpg,jpeg,gif,svg,webp"
+  github-token:
+    description: "GitHub token for posting comments or commits"
+    required: true
+    default: "${{ github.token }}"
+runs:
+  using: "node20"
+  main: "dist/index.js"
