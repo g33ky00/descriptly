@@ -26,8 +26,8 @@ jobs:
 
       - name: Run Security Scan
         env:
-          STRIX_LLM: openai/glm-5.2
+          STRIX_LLM: openai/meituan/longcat-2.0:free
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          OPENAI_API_BASE: https://inference-api.nousresearch.com/v1
+          LITELLM_BASE_URL: https://inference-api.nousresearch.com/v1
           STRIX_REASONING_EFFORT: medium
         run: strix -n -t ./ --scan-mode quick --scope-mode auto
