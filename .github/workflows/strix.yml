@@ -3,17 +3,29 @@ name: Strix Security Scan
 on:
   pull_request:
     branches: [main, master]
-  push:
-    branches: [main, master]
+
+permissions:
+  contents: read
 
 jobs:
   strix:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Run Strix Security Scan
-        uses: strix-ai/action@v1
         with:
-          target: .
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Strix
+        run: pip install strix-agent
+
+      - name: Run Security Scan
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STRIX_LLM: ${{ secrets.STRIX_LLM }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          STRIX_REASONING_EFFORT: medium
+        run: strix -n -t ./ --scan-mode quick --scope-mode auto
