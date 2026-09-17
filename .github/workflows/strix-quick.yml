@@ -1,17 +1,21 @@
-name: Strix Security Scan
+name: Strix Security Scan (Quick)
 
 on:
-  schedule:
-    - cron: '0 4 * * *'
+  pull_request:
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: strix-quick
+  cancel-in-progress: true
+
 jobs:
   strix:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,10 +28,10 @@ jobs:
       - name: Install Strix
         run: pip install strix-agent
 
-      - name: Run Security Scan (Deep + Full + High)
+      - name: Run Security Scan (Quick)
         env:
           STRIX_LLM: openai/meituan/longcat-2.0:free
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LITELLM_BASE_URL: https://inference-api.nousresearch.com/v1
-          STRIX_REASONING_EFFORT: high
-        run: strix -n -t ./ --scan-mode deep --scope-mode full
+          STRIX_REASONING_EFFORT: medium
+        run: strix -n -t ./ --scan-mode quick --scope-mode auto
