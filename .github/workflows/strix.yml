@@ -1,0 +1,19 @@
+name: Strix Security Scan
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  strix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Strix Security Scan
+        uses: strix-ai/action@v1
+        with:
+          target: .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

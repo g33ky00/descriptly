@@ -1,0 +1,6 @@
+repos:
+  - repo: https://github.com/strix-ai/pre-commit
+    rev: v1.0.0
+    hooks:
+      - id: strix-scan
+        args: ['--target', '.']
