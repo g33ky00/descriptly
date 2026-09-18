@@ -2,9 +2,39 @@
 
 Suggest alt text for images in your pull requests using Pollinations vision.
 
-## Why
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=nodedotjs)](#tech-stack)
+[![CI Checks](https://github.com/g33ky00/descriptly/actions/workflows/ci-unified.yml/badge.svg)](https://github.com/g33ky00/descriptly/actions/workflows/ci-unified.yml)
 
-Most PRs ship images without meaningful alt text. That hurts accessibility, SEO, and downstream tooling. Descriptly inspects PR diffs, sends image URLs to Pollinations, and proposes concise alt text as a PR comment.
+---
+
+## À propos
+
+Descriptly inspecte les pull requests, détecte les images ajoutées ou modifiées, et utilise l'IA de vision de Pollinations pour générer automatiquement des suggestions d'attributs `alt` — améliorant l'accessibilité et le SEO.
+
+## Structure
+
+```
+descriptly/
+├── action.yml            # Définition GitHub Action
+├── src/
+│   ├── index.js          # Logique principale
+│   ├── images.js         # Détection images dans PR diff
+│   ├── pollinations.js   # Appel API vision
+│   └── comment.js        # Gestion commentaire PR idempotent
+├── tests/                # Tests unitaires et d'intégration
+└── README.md
+```
+
+## Tech Stack
+
+- **Node.js 20** — Runtime principal
+- **GitHub Actions** — Distribution et exécution
+- **Pollinations Vision API** — Génération automatique d'alt text
+- **Jest** — Tests unitaires
+- **Undici** — Client HTTP (natif Node.js)
+
+---
 
 ## How it works
 
@@ -65,3 +95,11 @@ If it runs again, it edits the existing Descriptly comment instead of creating a
 - JSX-aware alt audit with AST filtering
 - Quota handling with wallet connect flow
 - Marketplace listing + release automation
+
+## Contribution
+
+Les contributions sont bienvenues. Ouvrez une issue ou une pull request sur le dépôt principal.
+
+## Licence
+
+MIT License — voir [LICENSE](LICENSE) pour les détails.
