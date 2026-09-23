@@ -28,7 +28,7 @@ jobs:
       - name: Install Strix
         run: pip install strix-agent
 
-      - name: Run Security Scan (Quick)
+      - name: Run Security Scan (Quick + Auto + Medium)
         env:
           STRIX_LLM: openai/meituan/longcat-2.0:free
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
