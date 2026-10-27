@@ -10,5 +10,5 @@ permissions:
 
 jobs:
   ucqcs:
-    uses: g33ky00/.github/.github/workflows/ucqcs.yml@v4.6
+    uses: g33ky00/.github/.github/workflows/ucqcs.yml@v4.7
     secrets: inherit
