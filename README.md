@@ -103,3 +103,31 @@ Les contributions sont bienvenues. Ouvrez une issue ou une pull request sur le d
 ## Licence
 
 MIT License — voir [LICENSE](LICENSE) pour les détails.
+
+## About
+
+Descriptly — AI-powered content description and analysis tool.
+
+## Structure
+
+```
+descriptly/
+├── src/
+├── tests/
+└── README.md
+```
+
+## Stack
+
+- **Language:** TypeScript/Node.js
+- **CI:** UCQCS v4.5 (GitHub Actions)
+
+## Contributing
+
+Contributions are welcome. Please open an issue or pull request.
+
+## License
+
+MIT License.
+
+![CI](https://img.shields.io/badge/CI-passing-brightgreen)
