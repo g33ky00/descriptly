@@ -9,9 +9,6 @@ permissions:
   contents: read
 
 jobs:
-  ci:
-    name: UCQCS
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - run: echo "✅ All checks passed"
+  ucqcs:
+    uses: g33ky00/.github/.github/workflows/ucqcs.yml@v4.12
+    secrets: inherit
