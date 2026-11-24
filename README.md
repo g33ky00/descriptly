@@ -1,67 +1,103 @@
 # Descriptly
 
-Suggest alt text for images in your pull requests using Pollinations vision.
+> Suggest alt text for images in your pull requests using Pollinations vision.
 
-## Why
+## Sommaire
 
-Most PRs ship images without meaningful alt text. That hurts accessibility, SEO, and downstream tooling. Descriptly inspects PR diffs, sends image URLs to Pollinations, and proposes concise alt text as a PR comment.
+- [À propos](#à-propos)
+- [Structure du dépôt](#structure-du-dépôt)
+- [Stack technique](#stack-technique)
+- [Installation](#installation)
+- [Contribution](#contribution)
+- [Licence](#licence)
 
-## How it works
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node](https://img.shields.io/badge/Node-20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/License-AGPL--3.0-blue)](./LICENSE)
 
-1. On PR events, it lists changed files via GitHub.
-2. It filters added/modified images by extension.
-3. It also scans markdown/JSX/HTML diffs for empty/missing `alt` attributes.
-4. Each candidate image URL is sent to Pollinations vision.
-5. Results are posted back as a single idempotent PR comment.
+## À propos
 
-## Usage
+**Quoi** — Descriptly est une GitHub Action qui inspecte les diffs d'une pull request, détecte les images ajoutées/modifiées et les attributs `alt` manquants, envoie les URLs d'images à l'API vision de Pollinations et propose un alt text concis sous forme de commentaire de PR.
 
-```yaml
-permissions:
-  pull-requests: write
-  contents: write
+**Pour qui** — Mainteneurs et contributeurs de dépôts GitHub qui publient des images dans leurs PR et veulent améliorer l'accessibilité, le SEO et l'outillage downstream.
 
-jobs:
-  descriptly:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: g33ky00/descriptly@v1
-        with:
-          pollinations-token: ${{ secrets.POLLINATIONS_TOKEN }}
-          mode: "comment"
+**Pourquoi** — La plupart des PR livrent des images sans alt text significatif. Descriptly automatise la suggestion d'alt text, de manière idempotente (un seul commentaire édité à chaque exécution).
+
+**Qui** — Auteur et mainteneur : [@g33ky00](https://github.com/g33ky00).
+
+**Contacts** — Issues et discussions via [GitHub Issues](https://github.com/g33ky00/descriptly/issues).
+
+## Structure du dépôt
+
+```text
+descriptly/
+├── action.yml
+├── package.json
+├── tsconfig.json
+├── dist/
+├── src/
+│   ├── index.ts
+│   ├── config.ts
+│   ├── diff-parser.ts
+│   ├── github-client.ts
+│   └── pollinations.ts
+├── tests/
+│   ├── diff-parser.test.ts
+│   └── pollinations.test.ts
+├── docs/
+│   └── index.html
+├── .github/
+│   └── workflows/
+├── worker/
+│   ├── package.json
+│   ├── wrangler.jsonc
+│   ├── tsconfig.json
+│   ├── migrations/
+│   └── src/
+├── SECURITY.md
+└── LICENSE
 ```
 
-## Inputs
+## Stack technique
 
-| Input | Required | Default | Description |
-|---|---|---|---|
-| `pollinations-token` | Yes | — | Pollinations API token. |
-| `mode` | No | `comment` | Output mode. `comment` posts suggestions on the PR. `commit` is not yet available — see [Roadmap](#roadmap) |
-| `file-extensions` | No | `png,jpg,jpeg,gif,svg,webp` | Comma-separated image extensions to scan. |
-| `github-token` | No | `${{ github.token }}` | GitHub token. |
+| Composant | Version | Source |
+|-----------|---------|--------|
+| TypeScript | 5.6.3 | `package.json` (`devDependencies.typescript`) |
+| Node.js (runtime action) | 20 | `action.yml` (`runs.using: node20`) |
+| `@actions/core` | ^1.10.1 | `package.json` |
+| `@actions/github` | ^6.0.0 | `package.json` |
+| `@octokit/rest` | ^21.1.1 | `package.json` |
+| `@vercel/ncc` | ^0.38.2 | `package.json` |
+| Wrangler (worker) | ^4.126.0 | `worker/package.json` |
+| `@cloudflare/workers-types` | ^5.20260826.1 | `worker/package.json` |
 
-## Example output
+## Installation
 
-When `mode: comment`, Descriptly posts a single Markdown comment on the PR:
+```bash
+git clone https://github.com/g33ky00/descriptly.git
+cd descriptly
+npm install
+npm run build
+npm test
+```
 
-## 🖼 Descriptly — Alt-text suggestions
+Prérequis : Node.js 20+, npm.
 
-| File | Suggested alt |
-|---|---|
-| `assets/hero.png` | "Product dashboard showing monthly revenue and user growth trends." |
+## Contribution
 
-If it runs again, it edits the existing Descriptly comment instead of creating a duplicate.
+### Conventions de commit
 
-## Setup
+| Préfixe | Usage |
+|---------|-------|
+| `feat:` | Nouvelle fonctionnalité |
+| `fix:` | Correction |
+| `docs:` | Documentation |
+| `chore:` | Maintenance |
+| `ci:` | Intégration continue |
 
-1. Add a `POLLINATIONS_TOKEN` secret to your repository or organization.
-2. Add the workflow above to `.github/workflows/descriptly.yml`.
-3. Open or update a PR with images; Descriptly will comment with suggestions.
+Processus : fork, branche `feat/...` ou `fix/...`, PR vers `main`, CI verte.
 
-## Roadmap
+## Licence
 
-- `commit` mode with auto-alt insertion in markdown/JSX/HTML
-- JSX-aware alt audit with AST filtering
-- Quota handling with wallet connect flow
-- Marketplace listing + release automation
+Ce projet est sous licence **AGPL-3.0**.
+Voir [`LICENSE`](./LICENSE).
