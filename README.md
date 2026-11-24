@@ -113,3 +113,4 @@ pull request sur le dépôt principal.
 MIT License — voir [LICENSE](LICENSE) pour les détails.
 
 ![CI](https://img.shields.io/badge/CI-passing-brightgreen)
+**Version** : 1.0.0
