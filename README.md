@@ -21,11 +21,13 @@ pour générer automatiquement des suggestions d'attributs `alt`
 descriptly/
 ├── action.yml            # Définition GitHub Action
 ├── src/
-│   ├── index.js          # Logique principale
-│   ├── images.js         # Détection images dans PR diff
-│   ├── pollinations.js   # Appel API vision
-│   └── comment.js        # Gestion commentaire PR idempotent
+│   ├── index.ts          # Logique principale
+│   ├── config.ts         # Configuration
+│   ├── diff-parser.ts    # Détection images dans PR diff
+│   ├── github-client.ts  # Client GitHub
+│   └── pollinations.ts   # Appel API vision
 ├── tests/                # Tests unitaires et d'intégration
+├── dist/                 # Build compilé
 └── README.md
 ```
 
