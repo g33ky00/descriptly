@@ -65,7 +65,7 @@ jobs:
 ## Inputs
 
 | Input | Required | Default | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `pollinations-token` | Yes | — | Pollinations API token. |
 | `mode` | No | `comment` | Output mode. `comment` posts suggestions on the PR. `commit` is not yet available — see [Roadmap](#roadmap) |
 | `file-extensions` | No | `png,jpg,jpeg,gif,svg,webp` | Comma-separated image extensions to scan. |
