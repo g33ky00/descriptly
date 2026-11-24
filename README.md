@@ -10,11 +10,14 @@ Suggest alt text for images in your pull requests using Pollinations vision.
 
 ## À propos
 
-Descriptly inspecte les pull requests, détecte les images ajoutées ou modifiées, et utilise l'IA de vision de Pollinations pour générer automatiquement des suggestions d'attributs `alt` — améliorant l'accessibilité et le SEO.
+Descriptly inspecte les pull requests, détecte les images
+ajoutées ou modifiées, et utilise l'IA de vision de Pollinations
+pour générer automatiquement des suggestions d'attributs `alt`
+— améliorant l'accessibilité et le SEO.
 
 ## Structure
 
-```
+```text
 descriptly/
 ├── action.yml            # Définition GitHub Action
 ├── src/
@@ -67,21 +70,23 @@ jobs:
 | Input | Required | Default | Description |
 | --- | --- | --- | --- |
 | `pollinations-token` | Yes | — | Pollinations API token. |
-| `mode` | No | `comment` | Output mode. `comment` posts suggestions on the PR. `commit` is not yet available — see [Roadmap](#roadmap) |
-| `file-extensions` | No | `png,jpg,jpeg,gif,svg,webp` | Comma-separated image extensions to scan. |
+| `mode` | No | `comment` | Output mode. See [Roadmap](#roadmap). |
+| `file-extensions` | No | `png,jpg,jpeg,gif,svg,webp` | Image extensions. |
 | `github-token` | No | `${{ github.token }}` | GitHub token. |
 
 ## Example output
 
-When `mode: comment`, Descriptly posts a single Markdown comment on the PR:
+When `mode: comment`, Descriptly posts a single Markdown
+comment on the PR:
 
 ## 🖼 Descriptly — Alt-text suggestions
 
 | File | Suggested alt |
-|---|---|
-| `assets/hero.png` | "Product dashboard showing monthly revenue and user growth trends." |
+| ---- | ------------- |
+| `assets/hero.png` | "Product dashboard." |
 
-If it runs again, it edits the existing Descriptly comment instead of creating a duplicate.
+If it runs again, it edits the existing Descriptly comment
+instead of creating a duplicate.
 
 ## Setup
 
@@ -98,36 +103,11 @@ If it runs again, it edits the existing Descriptly comment instead of creating a
 
 ## Contribution
 
-Les contributions sont bienvenues. Ouvrez une issue ou une pull request sur le dépôt principal.
+Les contributions sont bienvenues. Ouvrez une issue ou une
+pull request sur le dépôt principal.
 
 ## Licence
 
 MIT License — voir [LICENSE](LICENSE) pour les détails.
-
-## About
-
-Descriptly — AI-powered content description and analysis tool.
-
-## Structure
-
-```
-descriptly/
-├── src/
-├── tests/
-└── README.md
-```
-
-## Stack
-
-- **Language:** TypeScript/Node.js
-- **CI:** UCQCS v4.5 (GitHub Actions)
-
-## Contributing
-
-Contributions are welcome. Please open an issue or pull request.
-
-## License
-
-MIT License.
 
 ![CI](https://img.shields.io/badge/CI-passing-brightgreen)
