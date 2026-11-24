@@ -1,103 +1,133 @@
 # Descriptly
 
-> Suggest alt text for images in your pull requests using Pollinations vision.
+Suggest alt text for images in your pull requests using Pollinations vision.
 
-## Sommaire
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=nodedotjs)](#tech-stack)
+[![CI Checks](https://github.com/g33ky00/descriptly/actions/workflows/ci-unified.yml/badge.svg)](https://github.com/g33ky00/descriptly/actions/workflows/ci-unified.yml)
 
-- [À propos](#à-propos)
-- [Structure du dépôt](#structure-du-dépôt)
-- [Stack technique](#stack-technique)
-- [Installation](#installation)
-- [Contribution](#contribution)
-- [Licence](#licence)
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Node](https://img.shields.io/badge/Node-20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/License-AGPL--3.0-blue)](./LICENSE)
+---
 
 ## À propos
 
-**Quoi** — Descriptly est une GitHub Action qui inspecte les diffs d'une pull request, détecte les images ajoutées/modifiées et les attributs `alt` manquants, envoie les URLs d'images à l'API vision de Pollinations et propose un alt text concis sous forme de commentaire de PR.
+Descriptly inspecte les pull requests, détecte les images ajoutées ou modifiées, et utilise l'IA de vision de Pollinations pour générer automatiquement des suggestions d'attributs `alt` — améliorant l'accessibilité et le SEO.
 
-**Pour qui** — Mainteneurs et contributeurs de dépôts GitHub qui publient des images dans leurs PR et veulent améliorer l'accessibilité, le SEO et l'outillage downstream.
+## Structure
 
-**Pourquoi** — La plupart des PR livrent des images sans alt text significatif. Descriptly automatise la suggestion d'alt text, de manière idempotente (un seul commentaire édité à chaque exécution).
-
-**Qui** — Auteur et mainteneur : [@g33ky00](https://github.com/g33ky00).
-
-**Contacts** — Issues et discussions via [GitHub Issues](https://github.com/g33ky00/descriptly/issues).
-
-## Structure du dépôt
-
-```text
+```
 descriptly/
-├── action.yml
-├── package.json
-├── tsconfig.json
-├── dist/
+├── action.yml            # Définition GitHub Action
 ├── src/
-│   ├── index.ts
-│   ├── config.ts
-│   ├── diff-parser.ts
-│   ├── github-client.ts
-│   └── pollinations.ts
-├── tests/
-│   ├── diff-parser.test.ts
-│   └── pollinations.test.ts
-├── docs/
-│   └── index.html
-├── .github/
-│   └── workflows/
-├── worker/
-│   ├── package.json
-│   ├── wrangler.jsonc
-│   ├── tsconfig.json
-│   ├── migrations/
-│   └── src/
-├── SECURITY.md
-└── LICENSE
+│   ├── index.js          # Logique principale
+│   ├── images.js         # Détection images dans PR diff
+│   ├── pollinations.js   # Appel API vision
+│   └── comment.js        # Gestion commentaire PR idempotent
+├── tests/                # Tests unitaires et d'intégration
+└── README.md
 ```
 
-## Stack technique
+## Tech Stack
 
-| Composant | Version | Source |
-|-----------|---------|--------|
-| TypeScript | 5.6.3 | `package.json` (`devDependencies.typescript`) |
-| Node.js (runtime action) | 20 | `action.yml` (`runs.using: node20`) |
-| `@actions/core` | ^1.10.1 | `package.json` |
-| `@actions/github` | ^6.0.0 | `package.json` |
-| `@octokit/rest` | ^21.1.1 | `package.json` |
-| `@vercel/ncc` | ^0.38.2 | `package.json` |
-| Wrangler (worker) | ^4.126.0 | `worker/package.json` |
-| `@cloudflare/workers-types` | ^5.20260826.1 | `worker/package.json` |
+- **Node.js 20** — Runtime principal
+- **GitHub Actions** — Distribution et exécution
+- **Pollinations Vision API** — Génération automatique d'alt text
+- **Jest** — Tests unitaires
+- **Undici** — Client HTTP (natif Node.js)
 
-## Installation
+---
 
-```bash
-git clone https://github.com/g33ky00/descriptly.git
-cd descriptly
-npm install
-npm run build
-npm test
+## How it works
+
+1. On PR events, it lists changed files via GitHub.
+2. It filters added/modified images by extension.
+3. It also scans markdown/JSX/HTML diffs for empty/missing `alt` attributes.
+4. Each candidate image URL is sent to Pollinations vision.
+5. Results are posted back as a single idempotent PR comment.
+
+## Usage
+
+```yaml
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  descriptly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: g33ky00/descriptly@v1
+        with:
+          pollinations-token: ${{ secrets.POLLINATIONS_TOKEN }}
+          mode: "comment"
 ```
 
-Prérequis : Node.js 20+, npm.
+## Inputs
+
+| Input | Required | Default | Description |
+|---|---|---|---|
+| `pollinations-token` | Yes | — | Pollinations API token. |
+| `mode` | No | `comment` | Output mode. `comment` posts suggestions on the PR. `commit` is not yet available — see [Roadmap](#roadmap) |
+| `file-extensions` | No | `png,jpg,jpeg,gif,svg,webp` | Comma-separated image extensions to scan. |
+| `github-token` | No | `${{ github.token }}` | GitHub token. |
+
+## Example output
+
+When `mode: comment`, Descriptly posts a single Markdown comment on the PR:
+
+## 🖼 Descriptly — Alt-text suggestions
+
+| File | Suggested alt |
+|---|---|
+| `assets/hero.png` | "Product dashboard showing monthly revenue and user growth trends." |
+
+If it runs again, it edits the existing Descriptly comment instead of creating a duplicate.
+
+## Setup
+
+1. Add a `POLLINATIONS_TOKEN` secret to your repository or organization.
+2. Add the workflow above to `.github/workflows/descriptly.yml`.
+3. Open or update a PR with images; Descriptly will comment with suggestions.
+
+## Roadmap
+
+- `commit` mode with auto-alt insertion in markdown/JSX/HTML
+- JSX-aware alt audit with AST filtering
+- Quota handling with wallet connect flow
+- Marketplace listing + release automation
 
 ## Contribution
 
-### Conventions de commit
-
-| Préfixe | Usage |
-|---------|-------|
-| `feat:` | Nouvelle fonctionnalité |
-| `fix:` | Correction |
-| `docs:` | Documentation |
-| `chore:` | Maintenance |
-| `ci:` | Intégration continue |
-
-Processus : fork, branche `feat/...` ou `fix/...`, PR vers `main`, CI verte.
+Les contributions sont bienvenues. Ouvrez une issue ou une pull request sur le dépôt principal.
 
 ## Licence
 
-Ce projet est sous licence **AGPL-3.0**.
-Voir [`LICENSE`](./LICENSE).
+MIT License — voir [LICENSE](LICENSE) pour les détails.
+
+## About
+
+Descriptly — AI-powered content description and analysis tool.
+
+## Structure
+
+```
+descriptly/
+├── src/
+├── tests/
+└── README.md
+```
+
+## Stack
+
+- **Language:** TypeScript/Node.js
+- **CI:** UCQCS v4.5 (GitHub Actions)
+
+## Contributing
+
+Contributions are welcome. Please open an issue or pull request.
+
+## License
+
+MIT License.
+
+![CI](https://img.shields.io/badge/CI-passing-brightgreen)
