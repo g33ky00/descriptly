@@ -1,4 +1,5 @@
 # Descriptly
+[![CI](https://img.shields.io/github/actions/workflow/status/g33ky00/descriptly/ci-unified.yml)](https://github.com/g33ky00/descriptly/actions/workflows/ci-unified.yml)
 
 Suggest alt text for images in your pull requests using Pollinations vision.
 
