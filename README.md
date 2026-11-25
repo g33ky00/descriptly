@@ -114,3 +114,19 @@ MIT License — voir [LICENSE](LICENSE) pour les détails.
 
 ![CI](https://img.shields.io/badge/CI-passing-brightgreen)
 **Version** : 1.0.0
+
+## About
+
+Projet maintenu par g33ky00.
+
+## Stack
+
+Voir le code source.
+
+## Contributing
+
+Les contributions sont les bienvenues via pull request.
+
+## License
+
+MIT
