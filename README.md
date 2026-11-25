@@ -9,12 +9,12 @@ Suggest alt text for images in your pull requests using Pollinations vision.
 
 ---
 
-## À propos
+## About
 
-Descriptly inspecte les pull requests, détecte les images
-ajoutées ou modifiées, et utilise l'IA de vision de Pollinations
-pour générer automatiquement des suggestions d'attributs `alt`
-— améliorant l'accessibilité et le SEO.
+Descriptly inspects pull requests, detects images
+added or modified, and uses Pollinations vision AI
+to automatically generate `alt` attribute suggestions
+— improving accessibility and SEO.
 
 ## Structure
 
@@ -104,30 +104,14 @@ instead of creating a duplicate.
 - Quota handling with wallet connect flow
 - Marketplace listing + release automation
 
-## Contribution
-
-Les contributions sont bienvenues. Ouvrez une issue ou une
-pull request sur le dépôt principal.
-
-## Licence
-
-MIT License — voir [LICENSE](LICENSE) pour les détails.
-
-![CI](https://img.shields.io/badge/CI-passing-brightgreen)
-**Version** : 1.0.0
-
-## About
-
-Projet maintenu par g33ky00.
-
-## Stack
-
-Voir le code source.
-
 ## Contributing
 
-Les contributions sont les bienvenues via pull request.
+Contributions are welcome. Open an issue or
+pull request on the main repository.
 
 ## License
 
-MIT
+MIT License — see [LICENSE](LICENSE) for details.
+
+![CI](https://img.shields.io/badge/CI-passing-brightgreen)
+**Version** : 1.0.0
