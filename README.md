@@ -3,7 +3,7 @@
 
 Suggest alt text for images in your pull requests using Pollinations vision.
 
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)(./LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=nodedotjs)](#tech-stack)
 [![CI Checks](https://github.com/g33ky00/descriptly/actions/workflows/ci-unified.yml/badge.svg)](https://github.com/g33ky00/descriptly/actions/workflows/ci-unified.yml)
 
